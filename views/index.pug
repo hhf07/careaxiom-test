@@ -1,0 +1,12 @@
+index.pug
+html
+    head
+        title CareAxiom Test
+    body
+        h1 Following are the titles of given websites:
+    if (websites)
+        ul
+            each site in websites
+                li= site.includes('.com') ? site : `${site} - NO RESPONSE`
+    else
+        p Empty list
