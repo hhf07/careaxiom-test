@@ -7,6 +7,6 @@ html
     if (websites)
         ul
             each site in websites
-                li= site.includes('.com') ? site : `${site} - NO RESPONSE`
+                li= site
     else
         p Empty list
