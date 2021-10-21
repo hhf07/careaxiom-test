@@ -27,8 +27,7 @@ app.listen(port, () => console.log(`Server listening on PORT ${port}`));
 const urlCheck = async (url) => {
     try {
         let response = await axios.get(url);
-        let title = response.data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
-        return title;
+        return response.data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
     } catch (error) {
         return false;
     }
