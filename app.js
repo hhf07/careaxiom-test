@@ -40,3 +40,5 @@ const urlCheck = (addresses) => {
 }
 
 //https://stackoverflow.com/questions/45620694/how-to-return-response-of-axios-in-return
+
+//https://www.codementor.io/@adititipnis/javascript-how-to-make-api-calls-for-each-value-in-an-array-and-get-an-array-of-results-v1sfcj11o
