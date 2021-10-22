@@ -4,7 +4,7 @@ const axios = require('axios');
 
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
@@ -15,8 +15,10 @@ app.get('/?', async (req, res) => {
     //     data.push( title ? `${address} - "${title}"` : `${address} - NO RESPONSE`);
     // }
     // urlCheck(addresses).then(data => res.status(200).render("index", { websites: data }))
-    const data = await urlCheck(addresses);
+    urlCheck(addresses, data => {
         res.status(200).render("index", { websites: data })
+    });
+        
 });
 
 app.get('*', (req, res) => res.status(404).render("error"));
@@ -25,16 +27,19 @@ app.get('*', (req, res) => res.status(404).render("error"));
 app.listen(port, () => console.log(`Server listening on PORT ${port}`));
 
 
-const urlCheck = (addresses) => {
+const urlCheck = async (addresses, callback) => {
     try {
-        return addresses.map(async address => {
+        let titles = [];
+        for(let address of addresses) {
             let data = await axios.get(!address.includes('http') ? "http://" + address : address)
             let title = data.data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
-            return title ? `${address} - "${title}"` : `${address} - NO RESPONSE`;
+            titles.push(title ? `${address} - "${title}"` : `${address} - NO RESPONSE`);
             // })
-        })
+        }
+        callback(titles);
         // return titles;
     } catch (error) {
+        console.log("ERROR : ", error)
         return false;
     }
 }
