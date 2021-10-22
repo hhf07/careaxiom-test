@@ -18,7 +18,7 @@ app.get('/?', async (req, res) => {
     urlCheck(addresses, data => {
         res.status(200).render("index", { websites: data })
     });
-        
+
 });
 
 app.get('*', (req, res) => res.status(404).render("error"));
@@ -28,20 +28,19 @@ app.listen(port, () => console.log(`Server listening on PORT ${port}`));
 
 
 const urlCheck = async (addresses, callback) => {
-    try {
-        let titles = [];
-        for(let address of addresses) {
+    let titles = [];
+    for (let address of addresses) {
+        try {
             let data = await axios.get(!address.includes('http') ? "http://" + address : address)
             let title = data.data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
             titles.push(title ? `${address} - "${title}"` : `${address} - NO RESPONSE`);
             // })
+        } catch (error) {
+            titles.push(`${address} - NO RESPONSE`);
         }
-        callback(titles);
-        // return titles;
-    } catch (error) {
-        console.log("ERROR : ", error)
-        return false;
     }
+    callback(titles);
+    // return titles;
 }
 
 //https://stackoverflow.com/questions/45620694/how-to-return-response-of-axios-in-return
