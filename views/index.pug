@@ -4,7 +4,7 @@ html
         title CareAxiom Test
     body
         h1 Following are the titles of given websites:
-    if (websites)
+    if (websites && websites.length > 0)
         ul
             each site in websites
                 li= site
